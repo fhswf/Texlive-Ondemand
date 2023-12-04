@@ -7,7 +7,7 @@ with open(os.path.join(os.path.dirname(__file__),"README.md"), encoding="utf8") 
 
 setup_args = dict(name = "texliveondemandapp",
       version = "0.1",
-      packages= ["app.py", "wsgi.py"],
+      packages= find_packages(),
       url="https://github.com/fhswf",
       description="simple texlive ondemand app",
       long_description=readme,
