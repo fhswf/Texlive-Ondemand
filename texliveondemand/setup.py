@@ -70,7 +70,10 @@ setup_args = dict(name = "texliveondemand",
       license="GNU-AGPL",
       include_package_data=True,
       #ext_modules = [CMakeExtension("texliveondemand")],
-      ext_modules = [Extension("texliveondemand", ["pdftex.c", "xetex.c"])],
+      ext_modules = [Extension("texliveondemand", [
+            os.path.join(os.path.dirname(__file__),"pdftex.c"),
+            os.path.join(os.path.dirname(__file__),"xetex.c")
+        ])],
       #cmdclass = {'build_ext': CMakeBuild}
     )
 
