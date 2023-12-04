@@ -1,7 +1,8 @@
 from setuptools import setup,find_packages
 
+
 import os
-with open(os.path.join(__file__,"README.md"), encoding="utf8") as f:
+with open(os.path.join(os.path.dirname(__file__),"README.md"), encoding="utf8") as f:
     readme = f.read()
 
 setup_args = dict(name = "texliveondemandapp",
@@ -9,7 +10,7 @@ setup_args = dict(name = "texliveondemandapp",
       packages= ["app.py", "wsgi.py"],
       url="https://github.com/fhswf",
       description="simple texlive ondemand app",
-      long_description=open("README.md").read(),
+      long_description=readme,
       long_description_content_type="text/markdown",
       license="GNU-AGPL",
       include_package_data=True,
@@ -19,7 +20,7 @@ setup_args = dict(name = "texliveondemandapp",
     )
 
 setup_args['install_requires'] = install_requires = []
-with open('requirements.txt') as f:
+with open(os.path.join(os.path.dirname(__file__),"requirements.txt")) as f:
     for line in f.readlines():
         req = line.strip()
         if not req or req.startswith(('-e', '#')):

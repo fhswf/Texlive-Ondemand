@@ -57,7 +57,7 @@ class CMakeBuild(build_ext):
 
 
 import os
-with open(os.path.join(__file__,"README.md"), encoding="utf8") as f:
+with open(os.path.join(os.path.dirname(__file__),"README.md"), encoding="utf8") as f:
     readme = f.read()
 
 setup_args = dict(name = "texliveondemand",
