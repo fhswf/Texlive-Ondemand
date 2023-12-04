@@ -54,11 +54,17 @@ static PyObject *py_kpse_find_file(PyObject *self, PyObject *args) {
   return NULL;
 }
 
+static PyObject *say_hello(PyObject *self, PyObject *args) {
+  return Py_BuildValue("s", "yay say hello");;
+}
+
+
 /* exported methods */
 
 static PyMethodDef pykpathsea_xetex_methods[] = {
-    {"find_file", (PyCFunction)py_kpse_find_file, METH_VARARGS, NULL},
-    {NULL, NULL}};
+    {"find_file", (PyCFunction)py_kpse_find_file, METH_VARARGS, NULL},{NULL, NULL},
+    {"say_hello", (PyCFunction)say_hello, METH_VARARGS, NULL},{NULL, NULL}
+  };
 
 static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT,
                                        "pykpathsea_xetex",
