@@ -83,7 +83,7 @@ static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT,
                                        NULL,
                                        NULL};
 
-PyMODINIT_FUNC PyInit_pykpathsea_pdftex(void) {
+PyMODINIT_FUNC PyInit_texliveondemand(void) {
   PyObject *module = PyModule_Create(&moduledef);
   if (module == NULL)
     return NULL;
