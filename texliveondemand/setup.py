@@ -73,7 +73,7 @@ setup_args = dict(name = "texliveondemand",
       ext_modules = [Extension("texliveondemand", [
             os.path.join(os.path.dirname(__file__),"pdftex.c"),
             os.path.join(os.path.dirname(__file__),"xetex.c")
-        ])],
+        ], libraries=["kpathsea"])],
       #cmdclass = {'build_ext': CMakeBuild}
     )
 
