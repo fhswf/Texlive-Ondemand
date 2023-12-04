@@ -1,11 +1,12 @@
 from setuptools import setup,find_packages
 
-with open("README.md", encoding="utf8") as f:
+import os
+with open(os.path.join(__file__,"README.md"), encoding="utf8") as f:
     readme = f.read()
 
 setup_args = dict(name = "texliveondemandapp",
       version = "0.1",
-      packages=find_packages(),
+      packages= ["app.py", "wsgi.py"],
       url="https://github.com/fhswf",
       description="simple texlive ondemand app",
       long_description=open("README.md").read(),

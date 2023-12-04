@@ -56,8 +56,8 @@ class CMakeBuild(build_ext):
             subprocess.check_call(['cmake', '--build', '.', '--config', cfg], cwd=self.build_temp)
 
 
-
-with open("README.md", encoding="utf8") as f:
+import os
+with open(os.path.join(__file__,"README.md"), encoding="utf8") as f:
     readme = f.read()
 
 setup_args = dict(name = "texliveondemand",
@@ -65,7 +65,7 @@ setup_args = dict(name = "texliveondemand",
       packages=find_packages(),
       url="https://github.com/fhswf",
       description="texlive python bindings",
-      long_description=open("README.md").read(),
+      long_description=readme,
       long_description_content_type="text/markdown",
       license="GNU-AGPL",
       include_package_data=True,
