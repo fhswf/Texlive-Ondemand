@@ -118,9 +118,9 @@ PyMODINIT_FUNC PyInit_texliveondemand(void) {
 
   struct stat st = {0};
   if (stat("texliveondemand", &st) == -1) {
-      mkdir("texliveondemand", 0700);
+      mkdir("texliveondemand", 0777);
   }
-  kpathsea_set_program_name(kpse, "texliveondemand", "texliveondemand");
+  kpathsea_set_program_name(kpse, "texliveondemand", NULL);
   kpathsea_set_program_enabled(kpse, kpse_pk_format, true,
                                kpse_src_cmdline - 1);
   kpathsea_set_program_enabled(kpse, kpse_tfm_format, true,
