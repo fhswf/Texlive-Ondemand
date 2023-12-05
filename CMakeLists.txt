@@ -5,7 +5,7 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-set(SRCS "texliveondemand/pdftex.c" "texliveondemand/xetex.c")
+set(SRCS "texliveondemand/texliveondemand.c")
 
 add_library(texliveondemand SHARED ${SRCS})
 

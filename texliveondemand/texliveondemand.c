@@ -33,22 +33,49 @@
 #include <string.h>
 
 static kpathsea kpse = NULL;
+static unsigned int DPI = 600;
 
-/* Base resolution. (-D, -dpi) */
-static unsigned dpi = 600;
-
-
-
-static PyObject *py_kpse_find_file(PyObject *self, PyObject *args) {
+static PyObject *py_pdftex_kpse_find_pk(PyObject *self, PyObject *args) {
   char *filename;
-  int fmt;
-  char *completefilename;
-  PyObject *returnvalue;
-  if (PyArg_ParseTuple(args, "si", &filename, &fmt)) {
-    completefilename = kpathsea_find_file(kpse, filename, fmt, 0);
-    returnvalue = Py_BuildValue("s", completefilename);
+  int dpi;
+  if (PyArg_ParseTuple(args, "si", &filename, &dpi)) {
+    kpse_glyph_file_type font_file_ex;
+    char *completefilename = kpathsea_find_glyph(kpse, filename, dpi, kpse_pk_format, &font_file_ex);
+    PyObject *returnvalue = Py_BuildValue("s", completefilename);
     if (completefilename != NULL)
       free(completefilename);
+    if (filename != NULL)
+      free(filename);
+    return returnvalue;
+  }
+  return NULL;
+}
+
+static PyObject *py_pdftex_kpse_find_file(PyObject *self, PyObject *args) {
+  char *filename;
+  int fmt;
+  if (PyArg_ParseTuple(args, "si", &filename, &fmt)) {
+    char *completefilename = kpathsea_find_file(kpse, filename, fmt, 0);
+    PyObject *returnvalue = Py_BuildValue("s", completefilename);
+    if (completefilename != NULL)
+      free(completefilename);
+    if (filename != NULL)
+      free(filename);
+    return returnvalue;
+  }
+  return NULL;
+}
+
+static PyObject *py_xetex_kpse_find_file(PyObject *self, PyObject *args) {
+  char *filename;
+  int fmt;
+  if (PyArg_ParseTuple(args, "si", &filename, &fmt)) {
+    char *completefilename = kpathsea_find_file(kpse, filename, fmt, 0);
+    PyObject *returnvalue = Py_BuildValue("s", completefilename);
+    if (completefilename != NULL)
+      free(completefilename);
+    if (filename != NULL)
+      free(filename);
     return returnvalue;
   }
   return NULL;
@@ -58,43 +85,40 @@ static PyObject *say_hello(PyObject *self, PyObject *args) {
   return Py_BuildValue("s", "yay say hello");;
 }
 
-
 /* exported methods */
+static PyMethodDef pykpathsea_pdftex_methods[] = {
+    {"pdftex_find_file", (PyCFunction)py_pdftex_kpse_find_file, METH_VARARGS, NULL},
+    {"pdftex_find_pk", (PyCFunction)py_pdftex_kpse_find_pk, METH_VARARGS, NULL},
+    {"xetex_find_file", (PyCFunction)py_xetex_kpse_find_file, METH_VARARGS, NULL},
+    {"say_hello", (PyCFunction)say_hello, METH_VARARGS, NULL},
+    {NULL, NULL}}; /*array save guard*/
 
-static PyMethodDef pykpathsea_xetex_methods[] = {
-    {"find_file", (PyCFunction)py_kpse_find_file, METH_VARARGS, NULL},{NULL, NULL},
-    {"say_hello", (PyCFunction)say_hello, METH_VARARGS, NULL},{NULL, NULL}
-  };
-
+/* define what the module is called */
 static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT,
-                                       "pykpathsea_xetex",
+                                       "texliveondemand",
                                        NULL,
                                        -1,
-                                       pykpathsea_xetex_methods,
+                                       pykpathsea_pdftex_methods,
                                        NULL,
                                        NULL,
                                        NULL,
                                        NULL};
 
+/*called when module gets imported*/ 
 PyMODINIT_FUNC PyInit_texliveondemand(void) {
-
   PyObject *module = PyModule_Create(&moduledef);
   if (module == NULL)
     return NULL;
 
+  /*init tex*/
   kpse = kpathsea_new();
-
-  kpathsea_set_program_name(kpse, "xelatex", "xelatex");
-
+  kpathsea_set_program_name(kpse, "texliveondemand", "texliveondemand");
   kpathsea_set_program_enabled(kpse, kpse_pk_format, true,
                                kpse_src_cmdline - 1);
-
   kpathsea_set_program_enabled(kpse, kpse_tfm_format, true,
                                kpse_src_cmdline - 1);
-
-  kpathsea_xputenv(kpse, "engine", "xetex");
-
-  kpathsea_init_prog(kpse, uppercasify(kpse->program_name), dpi, NULL, NULL);
+  kpathsea_xputenv(kpse, "engine", "texliveondemand");
+  kpathsea_init_prog(kpse, uppercasify(kpse->program_name), DPI, NULL, NULL);
 
   return module;
 }

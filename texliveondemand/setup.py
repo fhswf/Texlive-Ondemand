@@ -1,6 +1,7 @@
 from setuptools import setup,find_packages, Extension
 from setuptools.command.build_ext import build_ext
 import os, sys, subprocess
+#from distutils.core import setup, Extension
 
 # Command line flags forwarded to CMake (for debug purpose)
 cmake_cmd_args = []
@@ -62,7 +63,6 @@ with open(os.path.join(os.path.dirname(__file__),"README.md"), encoding="utf8") 
 
 setup_args = dict(name = "texliveondemand",
       version = "0.1",
-      packages=find_packages(),
       url="https://github.com/fhswf",
       description="texlive python bindings",
       long_description=readme,
@@ -71,8 +71,7 @@ setup_args = dict(name = "texliveondemand",
       include_package_data=True,
       #ext_modules = [CMakeExtension("texliveondemand")],
       ext_modules = [Extension("texliveondemand", [
-            os.path.join(os.path.dirname(__file__),"pdftex.c"),
-            os.path.join(os.path.dirname(__file__),"xetex.c")
+            os.path.join(os.path.dirname(__file__),"texliveondemand.c"),
         ], libraries=["kpathsea"])],
       #cmdclass = {'build_ext': CMakeBuild}
     )

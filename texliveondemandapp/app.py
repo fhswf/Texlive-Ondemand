@@ -2,8 +2,7 @@ from flask import Flask, send_file, make_response, send_from_directory
 from threading import Lock
 import time
 import os.path
-import pykpathsea_xetex
-import pykpathsea_pdftex
+import texliveondemand
 from flask_cors import cross_origin
 import re
 import os
@@ -22,7 +21,7 @@ def xetex_fetch_file(fileformat, filename):
     if filename == "swiftlatexxetex.fmt" or filename == "xetexfontlist.txt":
         url = filename
     else:
-        url = pykpathsea_xetex.find_file(filename, fileformat)
+        url = texliveondemand.xetex_find_file(filename, fileformat)
 
     if url is None or not os.path.isfile(url):
         return "File not found", 301
@@ -40,7 +39,7 @@ def pdftex_fetch_file(fileformat, filename):
     if filename == "swiftlatexpdftex.fmt":
         url = filename
     else:
-        url = pykpathsea_pdftex.find_file(filename, fileformat)
+        url = texliveondemand.pdftex_find_file(filename, fileformat)
 
     if url is None or not os.path.isfile(url):
         return "File not found", 301
@@ -55,7 +54,7 @@ def pdftex_fetch_file(fileformat, filename):
 def pdftex_fetch_pk(dpi, filename):
     filename = san(filename)
     
-    url = pykpathsea_pdftex.find_pk(filename, dpi)
+    url = texliveondemand.pdftex_find_pk(filename, dpi)
 
     if url is None or not os.path.isfile(url):
         return "File not found", 301
