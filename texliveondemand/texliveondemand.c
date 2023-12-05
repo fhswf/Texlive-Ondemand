@@ -31,6 +31,9 @@
 #include <kpathsea/variable.h>
 #include <kpathsea/version.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 static kpathsea kpse = NULL;
 static unsigned int DPI = 600;
@@ -112,6 +115,11 @@ PyMODINIT_FUNC PyInit_texliveondemand(void) {
 
   /*init tex*/
   kpse = kpathsea_new();
+
+  struct stat st = {0};
+  if (stat("texliveondemand", &st) == -1) {
+      mkdir("texliveondemand", 0700);
+  }
   kpathsea_set_program_name(kpse, "texliveondemand", "texliveondemand");
   kpathsea_set_program_enabled(kpse, kpse_pk_format, true,
                                kpse_src_cmdline - 1);
