@@ -5,8 +5,8 @@ import os
 with open(os.path.join(os.path.dirname(__file__),"README.md"), encoding="utf8") as f:
     readme = f.read()
 
-setup_args = dict(name = "texliveondemandapp",
-      version = "0.1",
+setup_args = dict(name = "texliveapp",
+      version = "0.2",
       packages= find_packages(),
       url="https://github.com/fhswf",
       description="simple texlive ondemand app",
